@@ -110,3 +110,11 @@ connections:
 6. Set the container port to `8080`
 7. (If you have DNS configured) enable public internet access and set your domain name to `data.<your-domain-name>.com`
 8. Deploy your application
+
+## Fetch Jupyter Notebook Token
+
+1. In the Massdriver canvas, download your `KUBECONFIG` from your Kubernetes cluster by hovering over the cluster artifact output, click on the dropdown for `Download Raw` and select `Kubeconfig`.
+2. Run `export KUBECONFIG=<path-to-your-kubeconfig>` in your terminal
+3. Run `kubectl get pods` to get the name of your Jupyter notebook pod
+4. Run `kubectl exec -it <your-jupyter-notebook-pod-name> -- jupyter notebook list` to get the server URL
+5. Copy the token from the URL (starts with `?token=`) and paste it into the Jupyter notebook login page
