@@ -7,6 +7,8 @@ type: application
 
 app:
   envs: {}
+
+  
     # Use jq expressions to build environment variables from input params or connections
     # LOG_LEVEL: .params.configuration.log_level
     # MONGO_DSN: .connections.mongo_authentication.data.authentication.username + ":" + .connections.mongo_authentication.data.authentication.password + "@" + .connections.mongo_authentication.data.authentication.hostname + ":" + (.connections.mongo_authentication.data.authentication.port|tostring)

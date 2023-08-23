@@ -68,7 +68,7 @@ app:
 
 [Source](https://github.com/massdriver-cloud/artifact-definitions/blob/main/definitions/artifacts/api.json)
 
-3. On line `181` is the `connections` block. This is where you will set your connections. Add the `endpoint` connection to the block like so:
+3. Near the bottom of the `massdriver.yaml` is the `connections` block. This is where you will set your connections. Add the `endpoint` connection to the block like so:
 
 ```yaml
 connections:
