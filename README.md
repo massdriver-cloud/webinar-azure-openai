@@ -39,6 +39,7 @@ This is optional, but if you do not add DNS, you will not be able to access your
 ### Deploy Custom Azure OpenAI Bundle
 
 1. In your `infra` directory, run `mass bundle publish` to publish the infrastructure template to Massdriver
+(If you get an error, make sure you have set your [environment variables](#prerequisites))
 2. Refresh the [Massdriver canvas](https://app.massdriver.cloud/) and search for `azure-openai`
 3. Drag the custom OpenAI bundle to the canvas, click `Configure`, select a region and then deploy
 
