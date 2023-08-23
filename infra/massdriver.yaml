@@ -116,12 +116,26 @@ params:
       type: string
       $md.immutable: true
       oneOf:
+        - title: Australia East
+          const: australiaeast
+        - title: Canada East
+          const: canadaeast
         - title: East US
           const: eastus
         - title: East US 2
           const: eastus2
+        - title: France Central
+          const: francecentral
+        - title: Japan East
+          const: japaneast
         - title: North Central US
           const: northcentralus
+        - title: South Central US (No capacity available)
+          const: southcentralus
+        - title: UK South
+          const: uksouth
+        - title: West Europe
+          const: westeurope
     monitoring:
       type: object
       title: Monitoring
