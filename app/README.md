@@ -1,4 +1,4 @@
-# data-processor
+# fine-tuning
 
 Data processing app using Azure OpenAI
 

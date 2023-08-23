@@ -1,7 +1,7 @@
 schema: draft-07
-name: data-processor
+name: fine-tuning
 description: Data processing app using Azure OpenAI
-source_url: github.com/YOUR_ORG/data-processor
+source_url: github.com/YOUR_ORG/fine-tuning
 access: private
 type: application
 
