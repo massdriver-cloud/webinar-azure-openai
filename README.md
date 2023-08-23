@@ -68,7 +68,27 @@ app:
 
 [Source](https://github.com/massdriver-cloud/artifact-definitions/blob/main/definitions/artifacts/api.json)
 
-3. Run `mass bundle publish` to publish the application template to Massdriver
+3. On line `181` is the `connections` block. This is where you will set your connections. Add the `endpoint` connection to the block like so:
+
+```yaml
+connections:
+  required:
+    - kubernetes_cluster
+    - endpoint
+  properties:
+    kubernetes_cluster:
+      $ref: massdriver/kubernetes-cluster
+    aws_authentication:
+      $ref: massdriver/aws-iam-role
+    gcp_authentication:
+      $ref: massdriver/gcp-service-account
+    azure_authentication:
+      $ref: massdriver/azure-service-principal
+    endpoint:
+      $ref: massdriver/api
+```
+
+4. Run `mass bundle publish` to publish the application template to Massdriver
 
 (If you get an error, make sure you have set your [environment variables](#prerequisites))
 

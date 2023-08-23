@@ -181,7 +181,6 @@ params:
 connections:
   required:
     - kubernetes_cluster
-    - endpoint
   properties:
     kubernetes_cluster:
       $ref: massdriver/kubernetes-cluster
