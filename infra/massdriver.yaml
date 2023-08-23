@@ -1,0 +1,198 @@
+schema: draft-07
+name: "azure-openai"
+description: Azure Open AI bundle for Massdriver webinar.
+source_url: github.com/massdriver-cloud/webinar-azure-openai
+access: private
+type: infrastructure
+
+MonitorAlarmMetric: &monitor_alarm_metric
+  required:
+    - severity
+    - frequency
+    - window_size
+    - aggregation
+    - operator
+    - threshold
+  properties:
+    severity:
+      title: Severity
+      description: The severity of the alarm.
+      type: integer
+      default: 1
+      oneOf:
+        - title: Critical
+          const: 0
+        - title: Error
+          const: 1
+        - title: Warning
+          const: 2
+        - title: Information
+          const: 3
+        - title: Verbose
+          const: 4
+    frequency:
+      title: Frequency
+      description: The evaluation frequency of the alarms.
+      type: string
+      default: PT1M
+      oneOf:
+        - title: Every 1 minute
+          const: PT1M
+        - title: Every 5 minutes
+          const: PT5M
+        - title: Every 15 minutes
+          const: PT15M
+        - title: Every 30 minutes
+          const: PT30M
+        - title: Every 1 hour
+          const: PT1H
+    window_size:
+      title: Alarm window
+      description: The time range over which the alarm is evaluated.
+      type: string
+      default: PT5M
+      oneOf:
+        - title: Every 1 minute
+          const: PT1M
+        - title: Every 5 minutes
+          const: PT5M
+        - title: Every 15 minutes
+          const: PT15M
+        - title: Every 30 minutes
+          const: PT30M
+        - title: Every 1 hour
+          const: PT1H
+        - title: Every 6 hours
+          const: PT6H
+        - title: Every 12 hours
+          const: PT12H
+        - title: Every 24 hours
+          const: P1D
+    aggregation:
+      title: Aggregation
+      description: The aggregation type of the alarm.
+      type: string
+      default: Average
+      enum:
+        - Average
+        - Count
+        - Minimum
+        - Maximum
+        - Total
+    operator:
+      title: Operator
+      description: The operator used to compare the metric value to the threshold.
+      type: string
+      default: GreaterThanOrEqual
+      oneOf:
+        - title: Greater than or equal to
+          const: GreaterThanOrEqual
+        - title: Greater than
+          const: GreaterThan
+        - title: Less than or equal to
+          const: LessThanOrEqual
+        - title: Less than
+          const: LessThan
+        - title: Equals
+          const: Equals
+        - title: Not equal to
+          const: NotEquals
+    threshold:
+      title: Threshold
+      description: The number of server errors allowed before the alarm is triggered (HTTP response code 5xx).
+      type: integer
+      default: 1
+      minimum: 0
+      maximum: 100
+
+params:
+  required:
+    - region
+    - monitoring
+  properties:
+    region:
+      title: Region
+      description: The region where the OpenAI service will be deployed.
+      type: string
+      $md.immutable: true
+      oneOf:
+        - title: East US
+          const: eastus
+        - title: East US 2
+          const: eastus2
+        - title: North Central US
+          const: northcentralus
+    monitoring:
+      type: object
+      title: Monitoring
+      properties:
+        mode:
+          title: Alarm Mode
+          description: Enable and customize Function App metric alarms.
+          type: string
+          default: AUTOMATED
+          oneOf:
+            - const: AUTOMATED
+              title: Automated
+            - const: CUSTOM
+              title: Custom
+            - const: DISABLED
+              title: Disabled
+      dependencies:
+        mode:
+          oneOf:
+            - properties:
+                mode:
+                  const: AUTOMATED
+            - properties:
+                mode:
+                  const: DISABLED
+            - properties:
+                mode:
+                  const: CUSTOM
+                alarms:
+                  type: object
+                  title: Alarms
+                  properties:
+                    errors_metric_alert:
+                      title: Server Errors
+                      type: object
+                      <<: *monitor_alarm_metric
+
+connections:
+  required:
+    - azure_service_principal
+  properties:
+    azure_service_principal:
+      $ref: massdriver/azure-service-principal
+
+artifacts:
+  required:
+    - endpoint
+  properties:
+    endpoint:
+      $ref: massdriver/api
+
+ui:
+  ui:order:
+    - region
+    - monitoring
+    - "*"
+  monitoring:
+    ui:order:
+      - mode
+      - alarms
+      - '*'
+    alarms:
+      ui:order:
+        - errors_metric_alert
+        - '*'
+      errors_metric_alert:
+        ui:order:
+          - severity
+          - operator
+          - aggregation
+          - frequency
+          - window_size
+          - threshold
+          - '*'
